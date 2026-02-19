@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivek Gupta | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0d459b;
+            color: #fff;
+            overflow-x: hidden
+        }
+        section {
+            padding: 90px 12%
+        }
+        h1,h2 {
+            font-weight: 800;
+            letter-spacing: 1px
+        }
+
+        .gradient {
+            background: linear-gradient(90deg, #f8f4fa, #060007);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: rgb(245, 230, 230);
+        }
+        .box1{
+            margin-right: 300px;
+        }
+        img{
+            width:350px;
+            border-radius:50%;
+            border:5px solid #38bdf8;
+            box-shadow: 10px 10px 150px #38bdf8, 10px 10px 125px #38bdf8, 10px 10px 100px #38bdf8, 10px 10px 50px #38bdf8, 10px 10px 25px #38bdf8;
+        }
+        img:hover{
+            scale: 1.2;
+        }
+        .box2 a{
+            font-size: 30px;
+            margin: 15px;
+            background-color: black;
+            padding: 7px;
+            border-radius: 10px;
+
+        }
+        .box2 a:hover{
+            /* font-size: 40px; */
+            background-color: greenyellow;
+            box-shadow: 10px 10px 100px rgb(7, 7, 7),10px 10px 50px rgb(7, 7, 7),10px 10px 25px rgb(13, 14, 13),10px 10px 5px rgb(0, 0, 0);
+            /* translate: 100px 100px; */
+
+        }
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            padding: 18px 12%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(4, 252, 136, 0.329);
+            backdrop-filter: blur(10px);
+            z-index: 1000
+        }
+
+        nav a {
+            color: #eff7ed;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #320d74, #880d4b);
+            margin-left: 25px;
+            font-weight: 700;
+            transition: .3s
+        }
+
+        nav a:hover {
+            color: magenta;
+            background: linear-gradient(90deg, #492a80c2, #a8326d79);
+
+        }
+
+        /* HERO FIXED HEIGHT */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #bbb;
+            max-width: 600px
+        }
+
+        .btn {
+            margin-top: 35px;
+            padding: 14px 40px;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(90deg, #7c3aed, #ec4899);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            scale: 1.2;
+        }
+
+        /* HEADINGS */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem
+        }
+
+        .section-title p {
+            color: #aaa;
+            margin-top: 10px
+        }
+
+        /* PROJECTS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px
+        }
+
+        .card {
+            background: #1a1a1a;
+            padding: 35px;
+            border-radius: 18px;
+            transition: .4s;
+            border: 1px solid rgba(255, 255, 255, 0.05)
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #7c3aed
+        }
+
+        /* TECHNICAL SKILLS IMPROVED */
+        .skills-wrapper {
+            max-width: 800px;
+            margin: auto
+        }
+
+        .skill-item {
+            margin-bottom: 25px
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600
+        }
+
+        .progress {
+            width: 100%;
+            height: 12px;
+            background: #222;
+            border-radius: 10px;
+            overflow: hidden
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #7c3aed, #ec4899);
+            transition: 1.5s ease
+        }
+
+        /* CONTACT */
+        .contact {
+            text-align: center
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #000;
+            color: #666;
+            margin-top: 50px
+        }
+
+        @media(max-width:768px) {
+            .hero h1 {
+                font-size: 2.4rem
+            }
+
+            .section-title h2 {
+                font-size: 2rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="gradient" style="font-weight:800;font-size:1.6rem">Vivek Gupta</div>
+        <div>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="box1">
+             <h1 class="gradient">Full Stack Developer & UI Specialist</h1>
+                <p>I design and develop modern, high-performance web applications with clean architecture and premium user experience.</p> <br> <br>
+                <div class="box2">
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                     <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                      <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                       <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+                <button class="btn" onclick="document.getElementById('projects').scrollIntoView()">View My Work</button>
+        </div>
+        <div class="img"><img src="vi_photo.png" alt="photo"></div>
+    </section>
+
+    <section id="about">
+        <div class="section-title">
+            <h2 class="gradient">About Me</h2>
+            <p>Passionate about building scalable digital products with smooth interactions.</p>
+        </div>
+        
+        <p style="max-width:750px;margin:auto;color:#fffefe;text-align:center">
+               I am a creative web designer with strong skills in UI/UX,front-end development, and responsive design. I love building clean and modern websites. I specialize in MERN stack development, performance optimization, and intuitive interface  design. My focus is combining backend efficiency with frontend elegance.
+        </p>
+    </section>
+
+    <section id="projects">
+        <div class="section-title">
+            <h2 class="gradient">Featured Projects</h2>
+            <p>Some of my recent work</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>AI Trading Platform</h3>
+                <p>Real-time stock trading app with authentication and portfolio analytics.</p>
+            </div>
+            <div class="card">
+                <h3>Advanced E-Commerce</h3>
+                <p>Secure shopping system with admin dashboard and payment integration.</p>
+            </div>
+            <div class="card">
+                <h3>Interactive Portfolio</h3>
+                <p>Creative animated portfolio with premium UX/UI design.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="section-title">
+            <h2 class="gradient">Technical Skills</h2>
+            <p>Core technologies I work with</p>
+        </div>
+
+        <div class="skills-wrapper">
+            <div class="skill-item">
+                <div class="skill-header"><span>HTML</span><span>95%</span></div>
+                <div class="progress">
+                    <div class="progress-bar" data-width="95%"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header"><span>CSS</span><span>90%</span></div>
+                <div class="progress">
+                    <div class="progress-bar" data-width="90%"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header"><span>JavaScript</span><span>85%</span></div>
+                <div class="progress">
+                    <div class="progress-bar" data-width="85%"></div>
+                </div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header"><span>React</span><span>80%</span></div>
+                <div class="progress">
+                    <div class="progress-bar" data-width="80%"></div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="section-title">
+            <h2 class="gradient">Let’s Connect</h2>
+            <p>Open for opportunities & collaborations</p>
+        </div>
+         <div class="box2">
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                     <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                      <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                       <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+                <br>
+        <p>Email: vg8085248@email.com</p>
+    </section>
+
+    <footer>© 2026 Vivek Gupta | Premium Portfolio</footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        // Smooth fade sections
+        gsap.utils.toArray("section").forEach(sec => {
+            gsap.from(sec, { opacity: 0, y: 60, duration: 1, scrollTrigger: { trigger: sec, start: "top 80%" } })
+        });
+        // Animate skill bars
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.progress-bar').forEach(bar => {
+                if (bar.getBoundingClientRect().top < window.innerHeight - 50) {
+                    bar.style.width = bar.dataset.width
+                }
+            })
+        });
+    </script>
+
+</body>
+
+</html>
