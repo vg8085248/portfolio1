@@ -34,6 +34,22 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: rgb(245, 230, 230);
         }
+        .animated-text{
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #ff7b00, #fcfcfc,  #d0ff00);
+        background-size: 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientMove 5s linear infinite;
+        /* letter-spacing: 1px; */
+        }
+
+        @keyframes gradientMove {
+            0%{ background-position: 0%; }
+            100%{ background-position: 300%; }
+        }
+
         .box1{
             margin-right: 300px;
         }
@@ -226,7 +242,7 @@
 <body>
 
     <nav>
-        <div class="gradient" style="font-weight:800;font-size:1.6rem">Vivek Gupta</div>
+        <div class="animated-text" style="font-weight:800;font-size:1.6rem">Vivek Gupta</div>
         <div>
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
@@ -240,10 +256,10 @@
              <h1 class="gradient">Full Stack Developer & UI Specialist</h1>
                 <p>I design and develop modern, high-performance web applications with clean architecture and premium user experience.</p> <br> <br>
                 <div class="box2">
-                    <a href="#"><i class="fa-brands fa-github"></i></a>
-                     <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                      <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                       <a href="#"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="https://github.com/vg8085248/portfolio1.git" target="_main"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/vivek-gupta-a44835347?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_main"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="mailto:vg8085248@gmail.com" target="_main"><i class="fa-solid fa-envelope"></i></a>
                 </div>
                 <button class="btn" onclick="document.getElementById('projects').scrollIntoView()">View My Work</button>
         </div>
