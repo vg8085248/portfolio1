@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weather App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #74ebd5, #9face6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .weather-box {
+        background: #fff;
+        padding: 25px;
+        border-radius: 15px;
+        width: 320px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+        margin-bottom: 15px;
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+
+    button {
+        padding: 10px 20px;
+        background: #4a69bd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #3b5b9a;
+    }
+
+    .result {
+        margin-top: 20px;
+        display: none;
+    }
+
+    .temp {
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    img {
+        width: 80px;
+    }
+
+    .error {
+        color: red;
+        margin-top: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="weather-box">
+    <h2>Weather App</h2>
+
+    <input type="text" id="location" placeholder="Enter city name">
+    <br>
+    <button onclick="getWeather()">Get Weather</button>
+
+    <div class="error" id="error"></div>
+
+    <div class="result" id="result">
+        <h3 id="city"></h3>
+        <img id="icon">
+        <div class="temp" id="temp"></div>
+        <p id="condition"></p>
+        <p id="humidity"></p>
+        <p id="wind"></p>
+    </div>
+</div>
+
+<script>
+    function getWeather() {
+        const location = document.getElementById("location").value;
+        const apiKey = "224b77d3f9414bb6b47152355251312";
+        const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=yes`;
+
+        if (location === "") {
+            document.getElementById("error").innerText = "Please enter a location";
+            return;
+        }
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("error").innerText = "Location not found";
+                    document.getElementById("result").style.display = "none";
+                } else {
+                    document.getElementById("error").innerText = "";
+                    document.getElementById("result").style.display = "block";
+
+                    document.getElementById("city").innerText =
+                        data.location.name + ", " + data.location.country;
+
+                    document.getElementById("temp").innerText =
+                        data.current.temp_c + "°C";
+
+                    document.getElementById("condition").innerText =
+                        data.current.condition.text;
+
+                    document.getElementById("humidity").innerText =
+                        "Humidity: " + data.current.humidity + "%";
+
+                    document.getElementById("wind").innerText =
+                        "Wind: " + data.current.wind_kph + " km/h";
+
+                    document.getElementById("icon").src =
+                        "https:" + data.current.condition.icon;
+                }
+            })
+            .catch(error => {
+                document.getElementById("error").innerText = "Error fetching data";
+            });
+    }
+</script>
+
+</body>
+</html>

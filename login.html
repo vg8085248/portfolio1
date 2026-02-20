@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4e73df, #1cc88a);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      width: 350px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+    .input-box {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+    .input-box input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+    .input-box input:focus {
+      border-color: #4e73df;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #4e73df;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .btn:hover {
+      background: #2e59d9;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <form action="#" method="post">
+      <div class="input-box"><input type="text" placeholder="Enter Username" required></div>
+      <div class="input-box"><input type="password" placeholder="Enter Password" required></div>
+      <button class="btn" type="submit">Login</button>
+      <button class="btn" style="background-color: green;">reset</button>
+    </form>
+  </div>
+</body>
+</html>
