@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate To-Do App</title>
+
+    <style>
+        :root {
+            --bg: #f4f6f9;
+            --card: #ffffff;
+            --text: #222;
+            --primary: #4e73df;
+        }
+
+        body.dark {
+            --bg: #1e1e2f;
+            --card: #2c2c3e;
+            --text: #f1f1f1;
+            --primary: #6c8cff;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: .3s;
+        }
+
+        .container {
+            width: 520px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text);
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+        }
+
+        button.small {
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        li {
+            background: var(--bg);
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fade .3s ease;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .completed span {
+            text-decoration: line-through;
+            opacity: .6;
+        }
+
+        .priority-high {
+            border-left: 5px solid red;
+        }
+
+        .priority-medium {
+            border-left: 5px solid orange;
+        }
+
+        .priority-low {
+            border-left: 5px solid green;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .counter {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .search {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🚀 Ultimate To-Do</h1>
+
+        <div class="top">
+            <button onclick="toggleTheme()">🌙 Theme</button>
+            <div class="counter" id="counter"></div>
+        </div>
+
+        <div>
+            <input type="text" id="taskInput" placeholder="Task...">
+            <input type="date" id="dueDate">
+            <select id="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button onclick="addTask()">Add</button>
+        </div>
+
+        <input class="search" type="text" id="search" placeholder="Search...">
+
+        <ul id="taskList"></ul>
+
+        <div class="filters">
+            <button class="small" onclick="setFilter('all')">All</button>
+            <button class="small" onclick="setFilter('active')">Active</button>
+            <button class="small" onclick="setFilter('completed')">Completed</button>
+            <button class="small" onclick="exportTasks()">Export</button>
+        </div>
+
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        let filter = "all";
+        let dragIndex = null;
+
+        const taskInput = document.getElementById("taskInput");
+        const searchInput = document.getElementById("search");
+
+        taskInput.addEventListener("keypress", e => { if (e.key === "Enter") addTask(); });
+        searchInput.addEventListener("input", render);
+
+        function save() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function render() {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
+
+            let filtered = tasks.filter(t => {
+                if (filter === "active") return !t.completed;
+                if (filter === "completed") return t.completed;
+                return true;
+            }).filter(t => t.text.toLowerCase().includes(searchInput.value.toLowerCase()));
+
+            filtered.forEach(task => {
+                const index = tasks.indexOf(task);
+                const li = document.createElement("li");
+                li.draggable = true;
+                li.classList.add("priority-" + task.priority);
+                if (task.completed) li.classList.add("completed");
+
+                li.innerHTML = `
+      <span>
+        ${task.text} 
+        <small>${task.dueDate ? "📅 " + task.dueDate : ""}</small>
+      </span>
+      <div>
+        <button class="small" onclick="completeTask(${index})">✔</button>
+        <button class="small" onclick="editTask(${index})">✏️</button>
+        <button class="small" onclick="removeTask(${index})">❌</button>
+      </div>
+    `;
+
+                li.addEventListener("dragstart", () => dragIndex = index);
+                li.addEventListener("dragover", e => e.preventDefault());
+                li.addEventListener("drop", () => {
+                    const dragged = tasks[dragIndex];
+                    tasks.splice(dragIndex, 1);
+                    tasks.splice(index, 0, dragged);
+                    save(); render();
+                });
+
+                list.appendChild(li);
+            });
+
+            document.getElementById("counter").textContent =
+                tasks.filter(t => !t.completed).length + " Active";
+        }
+
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (!text) return alert("Enter task!");
+            tasks.push({
+                text,
+                completed: false,
+                dueDate: document.getElementById("dueDate").value,
+                priority: document.getElementById("priority").value
+            });
+            taskInput.value = "";
+            save(); render();
+        }
+
+        function completeTask(i) {
+            tasks[i].completed = !tasks[i].completed;
+            save();
+            render();
+        }
+
+        function removeTask(i) {
+            tasks.splice(i, 1);
+            save();
+            render();
+        }
+
+        function editTask(i) {
+            const newText = prompt("Edit task:", tasks[i].text);
+            if (newText && newText.trim()) {
+                tasks[i].text = newText.trim();
+                save(); render();
+            }
+        }
+
+        function setFilter(f) { filter = f; render(); }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+            localStorage.setItem("theme", document.body.classList.contains("dark"));
+        }
+
+        if (localStorage.getItem("theme") === "true")
+            document.body.classList.add("dark");
+
+        function exportTasks() {
+            const blob = new Blob([JSON.stringify(tasks, null, 2)], { type: "application/json" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "tasks.json";
+            a.click();
+        }
+
+        render();
+    </script>
+
+</body>
+
+</html>
